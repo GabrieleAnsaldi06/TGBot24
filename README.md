@@ -1,6 +1,6 @@
 # Analisi TGBOT24
 
-![DALL·E 2024-12-04 09.49.29 - A modern and sleek logo for a Telegram bot named TGBot24, designed for news delivery. The logo features a minimalist chat bubble and a globe, symboliz.webp](a1c116fb-9b45-4237-ad69-1545354dc20e.png)
+![Logo TGBot24](images/logo.png)
 
 ## Introduzione
 
@@ -74,7 +74,7 @@ In particolare, **TGBot24** si propone come uno strumento utile per chi vuole ri
 
 ## Schema ER del database
 
-![image.png](image.png)
+![Schema ER del database](images/schema-er.png)
 
 ## Schema Logico del database
 
@@ -84,4 +84,4 @@ In particolare, **TGBot24** si propone come uno strumento utile per chi vuole ri
 
 ## Interfaccia utente e casi d’uso
 
-![image.png](image%201.png)
+![Interfaccia utente e casi d’uso](images/use-case.png)
