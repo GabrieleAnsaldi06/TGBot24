@@ -1,87 +1,85 @@
-# Analisi TGBOT24
+# TGBot24
 
 ![Logo TGBot24](images/logo.png)
 
 ## Introduzione
 
-Questo documento definisce un'analisi dettagliata per lo sviluppo di un bot di Telegram denominato **TGBot24**, progettato per fornire notizie sintetizzate agli utenti in modo semplice e accessibile. Il bot utilizza un sistema integrato di Web Scraping, basato su Jsoup, per recuperare notizie dal sito **TGCOM24**. I contenuti vengono elaborati tramite l'API di **ChatGPT**, che sintetizza le informazioni, mentre un database MySQL gestisce l'archiviazione delle notizie e la registrazione delle interazioni con gli utenti.
+Questo documento descrive il progetto **TGBot24**, un bot di Telegram progettato per fornire notizie sintetizzate agli utenti in modo semplice e accessibile. Il bot esegue un **web scraping** del sito **TGCOM24** per raccogliere notizie aggiornate, e le invia agli utenti tramite Telegram, utilizzando il sistema di **sintesi delle notizie già fornito dal sito TGCOM24**.
 
 ## Contesto
 
-Il bot **TGBot24** è rivolto principalmente a studenti, professionisti, e appassionati di attualità che desiderano restare aggiornati sulle principali notizie in modo semplice, veloce ed interattivo. Grazie alla capacità di sintetizzare le informazioni, il bot mira a rendere l'accesso alle notizie più diretto e comprensibile, anche per chi ha poco tempo a disposizione.
-
-In particolare, **TGBot24** si propone come uno strumento utile per chi vuole ricevere aggiornamenti quotidiani senza dover navigare attraverso più fonti, offrendo un'esperienza informativa arricchita da sintesi accurate e immagini rappresentative, il tutto direttamente all'interno dell'app Telegram.
+**TGBot24** è destinato a studenti, professionisti e appassionati di attualità che desiderano rimanere aggiornati sulle principali notizie in modo semplice, veloce e interattivo. L'utente riceve notizie sintetizzate e immagini rappresentative direttamente tramite Telegram, senza la necessità di navigare su più fonti.
 
 ## Obiettivi del Software
 
-- Fornire un accesso rapido e facile alle notizie più recenti e rilevanti, rendendole immediatamente disponibili agli utenti.
-- Automatizzare il processo di raccolta, sintesi e invio delle notizie tramite Web Scraping e intelligenza artificiale, riducendo al minimo l'intervento manuale.
-- Offrire una piattaforma interattiva e user-friendly per la consultazione delle notizie, rendendo l’esperienza informativa più coinvolgente e accessibile.
-- Consentire agli utenti di ricevere aggiornamenti personalizzati e sintetici, ottimizzando il tempo dedicato alla lettura delle notizie quotidiane.
+- Fornire un accesso rapido e facile alle notizie più recenti e rilevanti.
+- Automatizzare la raccolta e l'invio delle notizie tramite Web Scraping, senza necessità di sintesi aggiuntive grazie al sito TGCOM24.
+- Offrire una piattaforma interattiva e user-friendly per la consultazione delle notizie.
+- Consentire agli utenti di ricevere aggiornamenti personalizzati e sintetici in modo efficiente.
 
 ## **Requisiti del Sistema**
 
 ### **Requisiti non funzionali (qualità)**
 
-- Risposta rapida di pochi secondi per ogni richiesta.
-- Il sistema deve essere **scalabile**, in modo da gestire un elevato numero di richieste simultanee senza compromettere le prestazioni.
-- Le notizie estratte devono essere **accurate, affidabili e aggiornate**, mantenendo l'integrità delle informazioni fornite.
-- L’interfaccia deve essere intuitiva e user-friendly per garantire un’ottima esperienza utente.
+- Risposta rapida per ogni richiesta.
+- Il sistema deve essere **scalabile**, in grado di gestire numerosi utenti simultaneamente senza compromettere le prestazioni.
+- Le notizie estratte devono essere **accurate e aggiornate**, mantenendo l'integrità delle informazioni fornite.
+- L'interfaccia utente deve essere semplice e intuitiva per garantire un'esperienza ottimale.
 
 ## **Funzionalità**
 
-- Il bot invia **notizie sintetizzate** agli utenti, combinando testo e immagini, dopo aver elaborato le informazioni estratte dal sito **TGCOM24**.
-- Gli utenti possono ricevere aggiornamenti automatici o personalizzati, selezionando le **categorie di notizie** di loro interesse.
-- Gli utenti possono effettuare una ricerca basata su **parole chiave**, ricevendo un elenco di notizie correlate.
-- Il sistema offre una cronologia delle notizie inviate, tracciando i progressi di utilizzo degli utenti nel database.
+- Il bot invia **notizie sintetizzate** agli utenti, combinando testo e immagini estratti dal sito **TGCOM24**.
+- Gli utenti possono ricevere aggiornamenti automatici o personalizzati, scegliendo le **categorie di notizie** di loro interesse.
+- Gli utenti possono cercare notizie tramite **parole chiave**, ricevendo un elenco di notizie correlate.
+- Il sistema tiene traccia della cronologia delle notizie inviate e delle interazioni degli utenti nel database.
 
 ## **Architettura del Sistema**
 
 1. **Telegram Bot**
-    - Il bot è il principale punto di interazione con gli utenti. Riceve richieste tramite Telegram e restituisce notizie sintetizzate, corredate da immagini.
+    - Il bot è l'interfaccia principale con gli utenti, ricevendo richieste tramite Telegram e inviando le notizie estratte.
 2. **API Telegram**
-    - Questa componente collega il bot con l'infrastruttura di Telegram, facilitando l'invio e la ricezione di messaggi tramite il protocollo Long Polling o Webhook.
+    - Utilizzata per la comunicazione tra il bot e gli utenti, gestisce l'invio e la ricezione di messaggi.
 3. **Web Scraper**
-    - Implementato con Jsoup, estrae periodicamente i dati dal sito **TGCOM24**: titoli, testi e immagini delle notizie. Successivamente, i dati vengono elaborati e preparati per il modulo di sintesi.
-4. **Modulo AI**
-    - Utilizzando l'API di **ChatGPT**, sintetizza i contenuti testuali estratti dal Web Scraper per fornire agli utenti una versione compatta e comprensibile delle notizie.
-5. **Database**
+    - Implementato con **Jsoup**, il web scraper estrae notizie da **TGCOM24**, comprese sintesi, titoli, e immagini.
+4. **Database**
     - Il database MySQL memorizza:
-        - Le notizie estratte, incluse sintesi e URL di origine.
-        - Informazioni sugli utenti iscritti al bot.
-        - Log delle interazioni tra utenti e bot (ad esempio, cronologia delle notizie inviate).
-6. **Utenti**
-    - Gli utenti interagiscono con il bot tramite l'app Telegram, richiedendo notizie o ricevendo aggiornamenti giornalieri automatizzati.
+        - Le notizie estratte (titoli, sintesi, immagini, URL).
+        - Le informazioni sugli utenti iscritti.
+        - La cronologia delle interazioni degli utenti con il bot.
 
 ## **Tecnologie**
 
 **Linguaggi di Programmazione:**
 
-- **Java**: Utilizzato per sviluppare la logica del bot, gestire le interazioni con gli utenti e implementare il web scraping per estrarre le notizie dai siti web.
+- **Java**: Utilizzato per sviluppare la logica del bot e per eseguire il web scraping delle notizie.
 
 **Database Management System (DBMS):**
 
-- **MySQL**: Sistema di gestione del database utilizzato per archiviare le notizie, i dati degli utenti, le preferenze e i log delle interazioni tra bot e utenti.
+- **MySQL**: Sistema di gestione del database per memorizzare notizie, dati utenti, e log delle interazioni.
 
 **API Telegram:**
 
-- L'**API Telegram** viene utilizzata per la comunicazione tra il bot e gli utenti. Consente al bot di ricevere e inviare messaggi in tempo reale, nonché di gestire comandi specifici degli utenti.
+- L'**API Telegram** è utilizzata per gestire l'interazione tra il bot e gli utenti.
 
 **Librerie:**
 
-- **TelegramBots (Java)**: Libreria open-source che facilita l'interazione con l'API di Telegram, rendendo semplice l'invio e la ricezione di messaggi, l'elaborazione dei comandi, e l'interazione con le funzionalità avanzate di Telegram.
-- **Jsoup (Java)**: Libreria utilizzata per il **web scraping**. Jsoup permette di connettersi a siti web, estrarre e manipolare facilmente il contenuto HTML per raccogliere notizie, titoli, testi e immagini da fonti come TGCOM24.
+- **TelegramBots (Java)**: Libreria per interagire con l'API Telegram, semplificando l'invio di messaggi e la gestione dei comandi.
+- **Jsoup (Java)**: Libreria per il web scraping, utilizzata per estrarre notizie dal sito **TGCOM24**.
 
-## Schema ER del database
+## **Schema ER del Database**
 
 ![Schema ER del database](images/schema-er.png)
 
-## Schema Logico del database
+## **Schema Logico del Database**
 
 | **Utenti** | `ID` (PK), `Username`, `Password`, `Nome` |
 | --- | --- |
 | **Notizie** | `ID` (PK), `Titolo`, `Sintesi`, `URL_Immagine`, `DataPubblicazione`, `Argomento` |
 
-## Interfaccia utente e casi d’uso
+## **Interfaccia utente e casi d'uso**
 
-![Interfaccia utente e casi d’uso](images/use-case.png)
+![Interfaccia utente e casi d'uso](images/use-case.png)
+
+## Conclusione
+
+Con l'aggiornamento di **TGBot24**, il progetto offre un accesso rapido e facile alle notizie sintetizzate direttamente dal sito **TGCOM24**, rendendo l'esperienza dell'utente ancora più diretta ed efficiente.
